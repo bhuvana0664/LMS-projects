@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - LMS Portal</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>📚 LMS Portal</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="sidebar-link active" data-page="dashboard">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#courses" class="sidebar-link" data-page="courses">
+                    <span class="icon">📖</span>
+                    <span>Courses</span>
+                </a>
+                <a href="#attendance" class="sidebar-link" data-page="attendance">
+                    <span class="icon">✓</span>
+                    <span>Attendance</span>
+                </a>
+                <a href="#assignments" class="sidebar-link" data-page="assignments">
+                    <span class="icon">📝</span>
+                    <span>Assignments</span>
+                </a>
+                <a href="#announcements" class="sidebar-link" data-page="announcements">
+                    <span class="icon">📢</span>
+                    <span>Announcements</span>
+                </a>
+                <a href="#profile" class="sidebar-link" data-page="profile">
+                    <span class="icon">👤</span>
+                    <span>Profile</span>
+                </a>
+                <button id="logoutBtn" class="sidebar-link logout-btn">
+                    <span class="icon">🚪</span>
+                    <span>Logout</span>
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <h1 id="pageTitle">Dashboard</h1>
+                </div>
+                <div class="top-bar-right">
+                    <div class="user-info">
+                        <span id="userName">Loading...</span>
+                        <span id="userRole" class="user-role">Student</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+
+                <!-- Dashboard Page -->
+                <section id="dashboardPage" class="page active">
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card">
+                            <div class="card-icon">📚</div>
+                            <div class="card-content">
+                                <h3>Total Courses</h3>
+                                <p class="card-number" id="totalCoursesCard">0</p>
+                            </div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-icon">✓</div>
+                            <div class="card-content">
+                                <h3>Attendance</h3>
+                                <p class="card-number" id="avgAttendanceCard">0%</p>
+                            </div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-icon">📝</div>
+                            <div class="card-content">
+                                <h3>Pending Assignments</h3>
+                                <p class="card-number" id="pendingAssignmentsCard">0</p>
+                            </div>
+                        </div>
+                        <div class="dashboard-card">
+                            <div class="card-icon">📢</div>
+                            <div class="card-content">
+                                <h3>Latest Announcements</h3>
+                                <p class="card-number" id="latestAnnouncementsCard">0</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-row">
+                        <div class="dashboard-section">
+                            <h2>Recent Announcements</h2>
+                            <div id="recentAnnouncementsList" class="announcements-list">
+                                <p class="empty-state">No announcements yet</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Courses Page -->
+                <section id="coursesPage" class="page">
+                    <div class="page-header">
+                        <h2>My Courses</h2>
+                    </div>
+                    <div id="coursesList" class="courses-grid">
+                        <p class="empty-state">Loading courses...</p>
+                    </div>
+                </section>
+
+                <!-- Attendance Page -->
+                <section id="attendancePage" class="page">
+                    <div class="page-header">
+                        <h2>Attendance</h2>
+                        <div class="attendance-warning" id="attendanceWarning" style="display: none;">
+                            ⚠️ Your attendance is below 75%. Please contact your instructor.
+                        </div>
+                    </div>
+                    <div id="attendanceList" class="table-container">
+                        <h3>Subject-wise Attendance Summary</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Total Classes</th>
+                                    <th>Present</th>
+                                    <th>Absent</th>
+                                    <th>Percentage</th>
+                                </tr>
+                            </thead>
+                            <tbody id="attendanceTableBody">
+                                <tr><td colspan="5" class="empty-state">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="attendanceDetailsContainer"></div>
+                </section>
+
+                <!-- Assignments Page -->
+                <section id="assignmentsPage" class="page">
+                    <div class="page-header">
+                        <h2>Assignments</h2>
+                    </div>
+                    <div id="assignmentsList" class="assignments-list">
+                        <p class="empty-state">Loading assignments...</p>
+                    </div>
+                </section>
+
+                <!-- Announcements Page -->
+                <section id="announcementsPage" class="page">
+                    <div class="page-header">
+                        <h2>Announcements</h2>
+                    </div>
+                    <div id="allAnnouncementsList" class="announcements-list">
+                        <p class="empty-state">No announcements yet</p>
+                    </div>
+                </section>
+
+                <!-- Profile Page -->
+                <section id="profilePage" class="page">
+                    <div class="page-header">
+                        <h2>My Profile</h2>
+                    </div>
+                    <div class="profile-card">
+                        <form id="profileForm" class="profile-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="profileName">Full Name</label>
+                                    <input type="text" id="profileName" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profileEmail">Email</label>
+                                    <input type="email" id="profileEmail" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="profileStudentId">Student ID</label>
+                                    <input type="text" id="profileStudentId" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profileDepartment">Department</label>
+                                    <input type="text" id="profileDepartment" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="profileYear">Year</label>
+                                    <input type="text" id="profileYear" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="profilePhone">Phone</label>
+                                    <input type="tel" id="profilePhone">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                            <div id="profileMessage" class="message" style="display: none;"></div>
+                        </form>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="js/student.js"></script>
+</body>
+</html>

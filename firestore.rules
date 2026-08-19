@@ -1,0 +1,61 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Allow authenticated users to read/write their own user document
+    match /users/{userId} {
+      allow read, write: if request.auth.uid == userId;
+    }
+
+    // Subjects collection - all authenticated users can read
+    match /subjects/{subjectId} {
+      allow read: if request.auth != null;
+      allow create, update, delete: if request.auth != null && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'staff';
+    }
+
+    // Courses collection - all authenticated users can read
+    // Only staff can write
+    match /courses/{courseId} {
+      allow read: if request.auth != null;
+      allow create, update, delete: if request.auth != null && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'staff';
+    }
+
+    // Attendance collection
+    // Students can read their own attendance
+    // Staff can read/write all attendance
+    match /attendance/{attendanceId} {
+      allow read: if request.auth != null && (
+        request.auth.uid == resource.data.studentUID ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'staff'
+      );
+      allow create, update, delete: if request.auth != null && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'staff';
+    }
+
+    // Assignments collection
+    // All authenticated users can read
+    // Only staff can create/update/delete
+    match /assignments/{assignmentId} {
+      allow read: if request.auth != null;
+      allow create, update, delete: if request.auth != null && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'staff';
+    }
+
+    // Announcements collection
+    // All authenticated users can read
+    // Only staff can create/update/delete
+    match /announcements/{announcementId} {
+      allow read: if request.auth != null;
+      allow create, update, delete: if request.auth != null && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'staff';
+    }
+
+    // Deny access to anything else
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
